@@ -2,17 +2,20 @@ import React from "react";
 import FeatherIcon from 'feather-icons-react'
 import { kpApi } from "../axios/axios";
 import {Link} from 'react-router-dom'
-import {toast, ToastContainer } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Navigate} from 'react-router'
+import logo from '../images/pokemonlogo.webp'
 
 class SignUp extends React.Component{
     state ={
-        userName:'prathaban',
-        email:'prathapsubha1@gmail.com',
-        password:'password',
-        confirmPassword:'password',
+        userName:'',
+        email:'',
+        password:'',
+        confirmPassword:'',
         isPasswordVisible: false,
         isConfirmPasswordVisbile: false,
+        isNavigate: false,
     }
     
     render(){
@@ -36,6 +39,7 @@ class SignUp extends React.Component{
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 2000
                     })
+                    this.setState({isNavigate:true})
                 })
                 .catch(err=>{
                     toast.warning(err.response.data.message,{
@@ -45,13 +49,14 @@ class SignUp extends React.Component{
                 })
         }
         return( <div className="mobile-card" >
+                <img src={logo} alt={logo} />
                 <div className="mobile-card-heading" >
                     Sign Up
                 </div>
                 <p>
                     Please sign in to continue
                 </p>
-                <ToastContainer limit={1}/>
+                {this.state.isNavigate ? <Navigate to="login" />: null}
                 <form className="w-100" onSubmit={onClickSignUp} >
                 <div className="position-relative mb-3" >
                 <FeatherIcon
@@ -79,7 +84,7 @@ class SignUp extends React.Component{
                 <FeatherIcon
                     icon={this.state.isPasswordVisible ? "eye-off":"eye"}
                     className="form-input-eye-icon"
-                    // onClick ={this.setState({isPasswordVisible:true})}
+                    onClick ={()=>this.setState({isPasswordVisible:!this.state.isPasswordVisible})}
 
                 />
                 </div>
@@ -93,7 +98,7 @@ class SignUp extends React.Component{
                 <FeatherIcon
                     icon={this.state.isConfirmPasswordVisbile ? "eye-off":"eye"}
                     className="form-input-eye-icon"
-                    // onClick ={this.setState({isConfirmPasswordVisbile:!this.state.isConfirmPasswordVisbile})}
+                    onClick ={()=>this.setState({isConfirmPasswordVisbile:!this.state.isConfirmPasswordVisbile})}
                 />
                 
                 </div>
@@ -102,7 +107,7 @@ class SignUp extends React.Component{
                 </div>
                 </form>
                 <div className="mobile-card-footer" >
-                    Already  an account? <span> <Link to='/login' > Sign In </Link>   </span>
+                    Already having an account? <span> <Link className="link" to='/login' > Sign In </Link>   </span>
                 </div>
         </div>
         )

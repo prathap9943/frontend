@@ -1,9 +1,10 @@
+import { getUserName } from "./localStorage/localStorage";
+
 const initialState = {
     isLoggedIn: false,
     userName: null,
 }
-export default (state = initialState, action) => {
-    console.log(action)
+const reducer = (state = initialState, action) => {
     switch (action.type) {
       case "userName":
         return {
@@ -19,8 +20,21 @@ export default (state = initialState, action) => {
               isLoggedIn: false,
           }
       }
+      case "getLoggedInUser" :{
+        const user = getUserName()
+        if(user){
+          return {
+            ...state,
+            userName: user,
+            isLoggedIn: true,
+  
+          };
+        }
+        return state
+      }
       default:
-          console.log(state)
         return state
     }
   };
+
+  export default reducer

@@ -2,28 +2,27 @@ import React from "react";
 import FeatherIcon from 'feather-icons-react'
 import { kpApi } from "../axios/axios";
 import {Link} from 'react-router-dom'
-import {toast, ToastContainer } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {connect} from 'react-redux'
 import { setUserName } from "../localStorage/localStorage";
+import logo from '../images/pokemonlogo.webp'
 
 class Login extends React.Component{
     state={
-        email:'prathapsubha1@gmail.com',
-        password:'password',
+        email:'',
+        password:'',
         isPasswordVisible: false,
     }
     render(){
-        console.log(this.props)
         const onCLickSignIn =(e)=>{
             e.preventDefault()
             const payload = {
                 email: this.state.email,
                 password: this.state.password,
             }
-            kpApi.post('users/login',this.state)
+            kpApi.post('users/login',payload)
                 .then(res=>{
-                    console.log(res)
                     toast.success(res.data.message,{
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 2000
@@ -38,7 +37,6 @@ class Login extends React.Component{
                     this.props.setName(action)
                 })
                 .catch(err =>{
-                    console.log(err)
                     toast.warning(err.response.data.message,{
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 2000
@@ -46,13 +44,13 @@ class Login extends React.Component{
                 })
         } 
         return( <div className="mobile-card" >
+                <img src={logo} alt={logo} />
                 <div className="mobile-card-heading" >
                     Login
                 </div>
                 <p>
                     Please sign in to continue
                 </p>
-                <ToastContainer/>
                 <form className="w-100" onSubmit={onCLickSignIn} >
                 <div className="position-relative mb-3">
                 <FeatherIcon
@@ -68,11 +66,11 @@ class Login extends React.Component{
                     color="black"
                     className="form-input-icon"
                 />
-                <input type= "password" className="form-input" value={this.state.password} required onChange={(e)=> this.setState({password:e.target.value})} placeholder="password"/>
+                <input type={this.state.isPasswordVisible ? "text": "password" }   className="form-input" value={this.state.password} required onChange={(e)=> this.setState({password:e.target.value})} placeholder="password"/>
                 <FeatherIcon
                     icon={this.state.isPasswordVisible ? "eye-off":"eye"}
                     className="form-input-eye-icon"
-                    // onClick ={this.setState({isPasswordVisible:true})}
+                    onClick ={()=>this.setState({isPasswordVisible:!this.state.isPasswordVisible})}
 
                 />
                 </div>
@@ -82,7 +80,7 @@ class Login extends React.Component{
                 </form>
 
                 <div className="mobile-card-footer" >
-                    Dont't have an account? <span> <Link to="/signup" >  Sign Up</Link> </span>
+                    Dont't have an account? <span> <Link className="link" to="/signup" >  Sign Up</Link> </span>
                 </div>
         </div>
         )

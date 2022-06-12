@@ -83,3 +83,18 @@
 .Toastify__toast{
   margin-top: 85px;
 }
+
+.link{
+  margin-left: 10px;
+  color: #fea139;
+}
+.link:hover{
+  color: #fea139;
+}
+
+img{
+  height: 50px;
+  width: 80px;
+  position: absolute;
+  top: 40px;
+}

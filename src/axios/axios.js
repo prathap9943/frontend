@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const kpApi = axios.create({
-    baseURL: 'http://localhost:3001',
+    baseURL: 'http://localhost:3002',
     headers: {
       lang: 'en',
       'Content-Type': 'application/json',
